@@ -33,6 +33,14 @@ const editProfile = document.querySelector(".profile__edit-button");
 const closeProfile = document.querySelector(".popup__close");
 const modal = document.querySelector(".popup");
 
+function closeModal() {
+  modal.classList.remove("popup_is-opened");
+}
+
+closeProfile.addEventListener("click", function () {
+  closeModal();
+});
+
 // Discover the current values and displayed in the popup
 const currentName = document.querySelector(".profile__title");
 const currenDescription = document.querySelector(".profile__description");
@@ -49,7 +57,6 @@ function handleOpenEditModal() {
 editProfile.addEventListener("click", function () {
   handleOpenEditModal();
 });
-
 // Find the Form and edit the values after submit
 let formElement = document.querySelector(".popup__content");
 
