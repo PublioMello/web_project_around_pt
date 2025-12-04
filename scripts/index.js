@@ -28,3 +28,40 @@ let initialCards = [
 initialCards.forEach(function (item) {
   console.log(item.name);
 });
+
+const editProfile = document.querySelector(".profile__edit-button");
+const closeProfile = document.querySelector(".popup__close");
+const modal = document.querySelector(".popup");
+
+// Discover the current values and displayed in the popup
+const currentName = document.querySelector(".profile__title");
+const currenDescription = document.querySelector(".profile__description");
+
+function handleOpenEditModal() {
+  document.querySelector(".popup__input_type_name").value =
+    currentName.textContent;
+  document.querySelector(".popup__input_type_description").value =
+    currenDescription.textContent;
+
+  modal.classList.add("popup_is-opened");
+}
+
+editProfile.addEventListener("click", function () {
+  handleOpenEditModal();
+});
+
+// Find the Form and edit the values after submit
+let formElement = document.querySelector(".popup__content");
+
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+
+  let nameInput = formElement.querySelector(".popup__input_type_name");
+  let jobInput = formElement.querySelector(".popup__input_type_description");
+
+  currentName.textContent = nameInput.value;
+  currenDescription.textContent = jobInput.value;
+  modal.classList.remove("popup_is-opened");
+}
+
+formElement.addEventListener("submit", handleProfileFormSubmit);
