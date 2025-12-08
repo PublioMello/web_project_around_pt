@@ -121,7 +121,7 @@ function getCardElement(
 
   openImageButton.addEventListener("click", function () {
     imagePopupValue.src = this.src;
-    imagePopupCaption.alt = this.alt;
+    imagePopupCaption.textContent = this.alt;
     openModal(imagePopup);
   });
 
