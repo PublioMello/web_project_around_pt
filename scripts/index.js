@@ -169,3 +169,99 @@ function handleCardFormSubmit(evt) {
 const newCardForm = newCardModal.querySelector(".popup__form");
 
 newCardForm.addEventListener("submit", handleCardFormSubmit);
+
+// adding functionality to the forms
+// Edit profile
+
+const profileForm = document.querySelector("#edit-profile-form");
+const profileInputs = profileForm.querySelectorAll(".popup__input");
+const profileButton = profileForm.querySelector(".popup__button");
+
+function showInputError(inputElement, errorMessage, formElected) {
+  const errorElement = formElected.querySelector(
+    `.${inputElement.name}-input-error`
+  );
+  inputElement.classList.add("form__input_type_error");
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add("form__input-error_active");
+}
+
+function hideInputError(inputElement, formElected) {
+  const errorElement = formElected.querySelector(
+    `.${inputElement.name}-input-error`
+  );
+  inputElement.classList.remove("form__input_type_error");
+  errorElement.textContent = "";
+  errorElement.classList.remove("form__input-error_active");
+}
+
+function hasInvalidInput(inputs) {
+  return Array.from(inputs).some((input) => !input.validity.valid);
+}
+
+function toggleButtonState(defineButton, inputs) {
+  if (hasInvalidInput(inputs)) {
+    defineButton.disabled = true;
+    defineButton.classList.add("form__button_disabled");
+  } else {
+    defineButton.disabled = false;
+    defineButton.classList.remove("form__button_disabled");
+  }
+}
+
+profileInputs.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage, profileForm);
+    } else {
+      hideInputError(input, profileForm);
+    }
+    toggleButtonState(profileButton, profileInputs);
+  });
+});
+
+profileForm.addEventListener("submit", (event) => {
+  let formValid = true;
+
+  profileInputs.forEach((input) => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage, profileForm);
+      formValid = false;
+    }
+  });
+  toggleButtonState(profileButton, profileInputs);
+  if (!formValid) {
+    event.preventDefault();
+  }
+});
+
+const newLocalForm = document.querySelector("#new-card-form");
+const newLocalInputs = newLocalForm.querySelectorAll(".popup__input");
+const newLocaltButton = newLocalForm.querySelector(".popup__button");
+
+newLocalInputs.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage, newLocalForm);
+    } else {
+      hideInputError(input, newLocalForm);
+    }
+    toggleButtonState(newLocaltButton, newLocalInputs);
+  });
+});
+
+newLocalForm.addEventListener("submit", (event) => {
+  let formValid = true;
+
+  newLocalInputs.forEach((input) => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage, newLocalForm);
+      formValid = false;
+    }
+  });
+  toggleButtonState(newLocaltButton, newLocalInputs);
+  if (!formValid) {
+    event.preventDefault();
+  }
+});
+toggleButtonState(newLocaltButton, newLocalInputs);
