@@ -1,57 +1,63 @@
-# Tripleten web_project_around_pt
+Tripleten web_project_around_pt
 
-- Este repositório contém a implementação do Projeto 8, seguindo todas as especificações e requisitos técnicos definidos no curso. O objetivo é criar uma página interativa com cartões dinâmicos, modais funcionais e manipulação de DOM utilizando JavaScript puro.
+Este repositório contém a implementação do Projeto 8, seguindo todas as especificações e requisitos técnicos definidos no curso. O objetivo é criar uma página interativa com cartões dinâmicos, modais funcionais, validação completa de formulários e manipulação de DOM utilizando JavaScript puro.
 
 🚀 Sobre o Projeto
-O projeto consiste em uma página web composta por cartões gerados dinamicamente, um sistema de pop-ups/modais e funcionalidades completas para criação, visualização e remoção de cards. Toda a lógica foi implementada seguindo boas práticas de JavaScript, estruturação de arquivos e estilo de código.
+O projeto consiste em uma página web composta por cartões gerados dinamicamente, um sistema de pop-ups/modais e funcionalidades completas para criação, edição, visualização e remoção de cards. A interface e as interações foram implementadas seguindo boas práticas de JavaScript, organização de arquivos e estilo de código.
 
 🧩 Funcionalidades Implementadas
-✔️ Cards iniciais
+✔️ Cards Dinâmicos
 
-- Gerados a partir de um elemento <template> no HTML.
-- Baseados no array initialCards contendo seis objetos com name e link.
-- Construídos pela função getCardElement().
+- Os cards iniciais são gerados a partir de um elemento <template> utilizando os dados do array initialCards.
+- A estrutura de cada card é criada pela função getCardElement(), que agora trabalha diretamente com dados validados, dispensando os valores padrão usados anteriormente.
 
-✔️ Interações com o Card
+✔️ Interações com os Cards
 
-- Botão de curtir altera a cor do coração.
-- Botão de deletar remove o card do DOM.
-- Clique na imagem abre um modal com imagem ampliada + título.
+- O botão de curtir alterna estado visual.
+- O botão de exclusão remove o card do DOM.
+- Ao clicar na imagem, um modal abre a visualização ampliada com título.
 
-✔️ Criação de novos cards
+✔️ Criação de Novos Cards
 
-- Ao clicar no botão Criar no modal “Novo Local”:
-- O modal é fechado.
-- Um novo card aparece como primeiro item do container.
+- O formulário “Novo Local” agora possui validação completa: o título deve ter entre 2 e 30 caracteres e o link deve ser uma URL válida.
+- As mensagens de erro seguem o padrão do navegador e aparecem logo abaixo dos campos.
+- O botão “Salvar” permanece inativo enquanto algum campo estiver inválido e é ativado apenas quando ambos são preenchidos corretamente, seguindo o estilo definido no design.
+- Após o envio, o card é criado e inserido como primeiro item da lista.
 
-✔️ Modais
+✔️ Edição de Perfil
 
-- Abertos e fechados pelas funções openModal() e closeModal().
-- Modal “Editar perfil” preenche os campos automaticamente com os dados atuais.
-- Ao enviar o formulário de edição, nome e descrição do perfil são atualizados.
+- O modal “Editar Perfil” tem preenchimento automático com os dados atuais.
+- Seus campos também são validados: o nome deve ter entre 2 e 40 caracteres e o campo “Sobre” entre 2 e 200.
+- Enquanto houver erros, o botão “Salvar” permanece desabilitado e com a estilização de estado inativo.
+- Quando ambos os campos são válidos, o botão ativa e o envio atualiza o perfil.
 
-👨‍💻 Boas Práticas e Regras Atendidas
+✔️ Modais e Comportamentos de Fechamento
+
+- Todos os modais podem ser abertos e fechados pelas funções openModal() e closeModal().
+- Agora eles também podem ser fechados ao clicar na área de sobreposição (overlay), garantindo um comportamento intuitivo.
+- Além disso, é possível fechar qualquer modal pressionando a tecla Esc, fazendo o sistema responder de forma consistente às interações do usuário.
+
+👨‍💻 Boas Práticas e Qualidade do Código
 🟦 Estilo de Código
 
-- Variáveis com substantivos e descrições claras.
-- Funções com nomes descritivos começando por verbos.
-- camelCase usado em todo o projeto.
-- Sem abreviações ambíguas.
-- Cada função realiza apenas uma tarefa.
+- Variáveis e funções têm nomes claros, descritivos e coerentes.
+- Uso consistente de camelCase.
+- Funções realizam apenas uma tarefa.
+- Sem abreviações que prejudiquem a legibilidade.
 
-🟦 JavaScript
+🟦 Estrutura e Lógica
 
-- Todos os elementos do DOM armazenados em const.
-- Nenhum uso de innerHTML com dados do usuário.
-- Ausência de código duplicado.
-- let utilizado apenas quando o valor realmente muda.
-- Otimização: elementos DOM montados antes de serem inseridos.
-- Sem código morto ou não utilizado.
+- Elementos do DOM armazenados em const.
+- Zero uso de innerHTML com dados do usuário, garantindo segurança.
+- Nenhum trecho duplicado ou código morto.
+- DOM montado antes da inserção de elementos, melhorando desempenho.
+- Validações integradas e consistentes em todos os formulários.
 
-🛠️ Tecnologias Utilizadas
+🛠 Tecnologias Utilizadas
 
-- HTML5
+HTML5
+
 - CSS3
 - JavaScript (ES6+)
 - Manipulação de DOM
-- Estrutura modular com pastas dedicadas (blocks, images, scripts)
+- Estrutura modular organizada (blocks, images, scripts)
