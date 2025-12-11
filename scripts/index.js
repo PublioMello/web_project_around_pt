@@ -265,3 +265,24 @@ newLocalForm.addEventListener("submit", (event) => {
   }
 });
 toggleButtonState(newLocaltButton, newLocalInputs);
+
+// close popup esc and clicking outisde
+
+document.addEventListener("mousedown", (event) => {
+  const openedPopup = document.querySelector(".popup_is-opened");
+
+  // Se não tem popup aberto, nem faz nada
+  if (!openedPopup) return;
+
+  // Se clicou no overlay (área externa)
+  if (event.target === openedPopup) {
+    closeModal(openedPopup);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    const openedPopup = document.querySelector(".popup_is-opened");
+    if (openedPopup) closeModal(openedPopup);
+  }
+});
