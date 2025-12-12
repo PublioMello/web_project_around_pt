@@ -39,6 +39,12 @@ function openModal(modalElement) {
 
 function closeModal(modalElement) {
   modalElement.classList.remove("popup_is-opened");
+  const form = modalElement.querySelector(".popup__form");
+  const modalInputs = form.querySelectorAll(".popup__input");
+
+  modalInputs.forEach((input) => {
+    hideInputError(input, form);
+  });
 }
 
 closeProfile.addEventListener("click", function () {
@@ -50,12 +56,16 @@ const currentName = document.querySelector(".profile__title");
 const currenDescription = document.querySelector(".profile__description");
 
 function handleOpenEditModal() {
+  const modalInputs = modal.querySelectorAll(".popup__input");
+  const buttonInput = modal.querySelector(".popup__button");
+
   document.querySelector(".popup__input_type_name").value =
     currentName.textContent;
   document.querySelector(".popup__input_type_description").value =
     currenDescription.textContent;
 
   openModal(modal);
+  toggleButtonState(buttonInput, modalInputs);
 }
 
 editProfile.addEventListener("click", function () {
@@ -199,13 +209,21 @@ function hasInvalidInput(inputs) {
   return Array.from(inputs).some((input) => !input.validity.valid);
 }
 
+function enableButton(button) {
+  button.disabled = false;
+  button.classList.remove("form__button_disabled");
+}
+
+function disableButton(button) {
+  button.disabled = true;
+  button.classList.add("form__button_disabled");
+}
+
 function toggleButtonState(defineButton, inputs) {
   if (hasInvalidInput(inputs)) {
-    defineButton.disabled = true;
-    defineButton.classList.add("form__button_disabled");
+    disableButton(defineButton);
   } else {
-    defineButton.disabled = false;
-    defineButton.classList.remove("form__button_disabled");
+    enableButton(defineButton);
   }
 }
 
