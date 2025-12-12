@@ -73,13 +73,13 @@ editProfile.addEventListener("click", function () {
 });
 
 // Find the Form and edit the values after submit
-let formElement = document.querySelector(".popup__content");
+const formElement = document.querySelector(".popup__content");
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
-  let nameInput = formElement.querySelector(".popup__input_type_name");
-  let jobInput = formElement.querySelector(".popup__input_type_description");
+  const nameInput = formElement.querySelector(".popup__input_type_name");
+  const jobInput = formElement.querySelector(".popup__input_type_description");
 
   currentName.textContent = nameInput.value;
   currenDescription.textContent = jobInput.value;
@@ -289,10 +289,10 @@ toggleButtonState(newLocaltButton, newLocalInputs);
 document.addEventListener("mousedown", (event) => {
   const openedPopup = document.querySelector(".popup_is-opened");
 
-  // Se não tem popup aberto, nem faz nada
+  // if there isn't a pop up open do nothing
   if (!openedPopup) return;
 
-  // Se clicou no overlay (área externa)
+  // if they click on the overlay (external part)
   if (event.target === openedPopup) {
     closeModal(openedPopup);
   }
