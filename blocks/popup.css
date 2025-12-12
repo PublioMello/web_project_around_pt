@@ -117,7 +117,7 @@
   margin: 0;
 }
 /* ====== ERROS ====== */
-.popup__form__error-message {
+.popup__error-message {
   display: none;
   font-size: 12px;
   color: red;
