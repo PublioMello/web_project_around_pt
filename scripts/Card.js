@@ -1,6 +1,6 @@
 import { openModal, closeModal } from "./utils.js";
 
-export class Card {
+class Card {
   constructor(name, link) {
     this._name = name;
     this._link = link;
