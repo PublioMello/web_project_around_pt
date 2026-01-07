@@ -1,10 +1,6 @@
 import { renderCard } from "./Card.js";
 import { openModal, closeModal } from "./utils.js";
-import {
-  showInputError,
-  hideInputError,
-  hasInvalidInput,
-} from "./FormValidator.js";
+import FormValidator from "./FormValidator.js";
 
 let initialCards = [
   {
@@ -65,7 +61,7 @@ function handleOpenEditModal() {
     currenDescription.textContent;
 
   openModal(modal);
-  toggleButtonState(buttonInput, modalInputs);
+  toggleButtonState(buttonInput, modalInputs, profileValidator);
 }
 
 editProfile.addEventListener("click", function () {
@@ -128,8 +124,8 @@ function disableButton(button) {
   button.classList.add("form__button_disabled");
 }
 
-function toggleButtonState(defineButton, inputs) {
-  if (hasInvalidInput(inputs)) {
+function toggleButtonState(defineButton, inputs, validator) {
+  if (validator.hasInvalidInput(inputs)) {
     disableButton(defineButton);
   } else {
     enableButton(defineButton);
@@ -139,15 +135,16 @@ function toggleButtonState(defineButton, inputs) {
 const profileForm = document.querySelector("#edit-profile-form");
 const profileInputs = profileForm.querySelectorAll(".popup__input");
 const profileButton = profileForm.querySelector(".popup__button");
+const profileValidator = new FormValidator(profileForm);
 
 profileInputs.forEach((input) => {
   input.addEventListener("input", () => {
     if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, profileForm);
+      profileValidator.showInputError(input, input.validationMessage);
     } else {
-      hideInputError(input, profileForm);
+      profileValidator.hideInputError(input);
     }
-    toggleButtonState(profileButton, profileInputs);
+    toggleButtonState(profileButton, profileInputs, profileValidator);
   });
 });
 
@@ -156,11 +153,11 @@ profileForm.addEventListener("submit", (event) => {
 
   profileInputs.forEach((input) => {
     if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, profileForm);
+      profileValidator.showInputError(input, input.validationMessage);
       formValid = false;
     }
   });
-  toggleButtonState(profileButton, profileInputs);
+  toggleButtonState(profileButton, profileInputs, profileValidator);
   if (!formValid) {
     event.preventDefault();
   }
@@ -169,15 +166,16 @@ profileForm.addEventListener("submit", (event) => {
 const newLocalForm = document.querySelector("#new-card-form");
 const newLocalInputs = newLocalForm.querySelectorAll(".popup__input");
 const newLocaltButton = newLocalForm.querySelector(".popup__button");
+const newCardValidator = new FormValidator(newLocalForm);
 
 newLocalInputs.forEach((input) => {
   input.addEventListener("input", () => {
     if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, newLocalForm);
+      newCardValidator.showInputError(input, input.validationMessage);
     } else {
-      hideInputError(input, newLocalForm);
+      newCardValidator.hideInputError(input);
     }
-    toggleButtonState(newLocaltButton, newLocalInputs);
+    toggleButtonState(newLocaltButton, newLocalInputs, newCardValidator);
   });
 });
 
@@ -186,16 +184,16 @@ newLocalForm.addEventListener("submit", (event) => {
 
   newLocalInputs.forEach((input) => {
     if (!input.validity.valid) {
-      showInputError(input, input.validationMessage, newLocalForm);
+      newCardValidator.showInputError(input, input.validationMessage);
       formValid = false;
     }
   });
-  toggleButtonState(newLocaltButton, newLocalInputs);
+  toggleButtonState(newLocaltButton, newLocalInputs, newCardValidator);
   if (!formValid) {
     event.preventDefault();
   }
 });
-toggleButtonState(newLocaltButton, newLocalInputs);
+toggleButtonState(newLocaltButton, newLocalInputs, newCardValidator);
 
 // close popup esc and clicking outisde
 
