@@ -3,6 +3,7 @@ import Section from "./Section.js";
 import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
+import FormValidator from "./FormValidator.js";
 
 let initialCards = [
   {
@@ -67,6 +68,16 @@ const cardList = new Section(
   ".cards__list",
 );
 
+// ========== VALIDATOR ==========
+const editProfileForm = document.querySelector("#edit-profile-form");
+const newCardForm = document.querySelector("#new-card-form");
+
+const editProfileValidator = new FormValidator(editProfileForm);
+const newCardValidator = new FormValidator(newCardForm);
+
+editProfileValidator.enableValidation();
+newCardValidator.enableValidation();
+
 // ========== FUNCTIONS ==========
 
 function createCard(cardData) {
@@ -103,10 +114,13 @@ document
     document.querySelector("[name='description']").value =
       currentUserInfo.about;
 
+    editProfileValidator.resetValidation();
     editProfilePopup.open();
   });
 
 document.querySelector(".profile__add-button").addEventListener("click", () => {
+  newCardValidator.resetValidation();
+
   addCardPopup.open();
 });
 

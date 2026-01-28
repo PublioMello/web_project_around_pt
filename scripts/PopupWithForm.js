@@ -28,6 +28,10 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (event) => {
       event.preventDefault();
 
+      if (!this._form.checkValidity()) {
+        alert("No valid Inputs!");
+        return;
+      }
       const inputValues = this._getInputValues();
 
       this._handleFormSubmit(inputValues);

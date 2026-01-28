@@ -5,7 +5,7 @@ export default class FormValidator {
 
   showInputError(inputElement, errorMessage) {
     const errorElement = this._formElement.querySelector(
-      `.${inputElement.name}-input-error`
+      `.${inputElement.name}-input-error`,
     );
 
     inputElement.classList.add("form__input_type_error");
@@ -15,7 +15,7 @@ export default class FormValidator {
 
   hideInputError(inputElement) {
     const errorElement = this._formElement.querySelector(
-      `.${inputElement.name}-input-error`
+      `.${inputElement.name}-input-error`,
     );
 
     inputElement.classList.remove("form__input_type_error");
@@ -25,5 +25,24 @@ export default class FormValidator {
 
   hasInvalidInput(inputs) {
     return Array.from(inputs).some((input) => !input.validity.valid);
+  }
+
+  enableValidation() {
+    const inputs = this._formElement.querySelectorAll(".popup__input");
+
+    inputs.forEach((input) => {
+      input.addEventListener("input", () => {
+        if (!input.validity.valid) {
+          this.showInputError(input, input.validationMessage);
+        } else {
+          this.hideInputError(input);
+        }
+      });
+    });
+  }
+
+  resetValidation() {
+    const inputs = this._formElement.querySelectorAll(".popup__input");
+    inputs.forEach((input) => this.hideInputError(input));
   }
 }
