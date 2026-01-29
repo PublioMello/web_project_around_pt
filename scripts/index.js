@@ -98,7 +98,10 @@ function handleProfileFormSubmit(formData) {
 }
 
 function handleAddCardFormSubmit(formData) {
-  const newCard = createCard(formData);
+  const newCard = createCard({
+    name: formData["place-name"],
+    link: formData.link,
+  });
   cardList.addItem(newCard);
   addCardPopup.close();
 }

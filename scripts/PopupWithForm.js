@@ -29,7 +29,7 @@ export default class PopupWithForm extends Popup {
       event.preventDefault();
 
       if (!this._form.checkValidity()) {
-        alert("No valid Inputs!");
+        this.close();
         return;
       }
       const inputValues = this._getInputValues();
