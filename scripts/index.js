@@ -4,6 +4,8 @@ import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 import FormValidator from "./FormValidator.js";
+import Api from "./API.js";
+import PopupWithConfirmation from "./PopupWithConfirmation.js";
 
 let initialCards = [
   {
@@ -32,17 +34,38 @@ let initialCards = [
   },
 ];
 
+// ========== Using the Request ==========
+const api = new Api({
+  baseUrl: "https://around-api.pt-br.tripleten-services.com/v1",
+  headers: {
+    authorization: "9850811a-ab44-49ce-bac4-b519a93e9c0c",
+    "Content-Type": "application/json",
+  },
+});
+
+const profileName = document.querySelector(".profile__title");
+const profileAbout = document.querySelector(".profile__description");
+const profileAvatar = document.querySelector(".profile__image");
+
+api.getTheName().then((user) => {
+  profileName.textContent = user.name;
+  profileAbout.textContent = user.about;
+  profileAvatar.src = user.avatar;
+});
+
 // ========== POPUP IMAGE ==========
 const imagePopup = new PopupWithImage("#image-popup");
 imagePopup.setEventListeners();
 
 // ========== USER INFO ==========
+
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   aboutSelector: ".profile__description",
 });
 
 // ========== POPUP EDIT PROFILE ==========
+
 const editProfilePopup = new PopupWithForm(
   "#edit-popup",
   handleProfileFormSubmit,
@@ -57,9 +80,10 @@ const addCardPopup = new PopupWithForm(
 addCardPopup.setEventListeners();
 
 // ========== SECTION CARDS ==========
+
 const cardList = new Section(
   {
-    items: initialCards,
+    items: [],
     renderer: (cardData) => {
       const card = createCard(cardData);
       cardList.addItem(card);
@@ -79,31 +103,71 @@ editProfileValidator.enableValidation();
 newCardValidator.enableValidation();
 
 // ========== FUNCTIONS ==========
+let currentUserId;
+
+Promise.all([api.getTheName(), api.getInitialCards()])
+  .then(([user, cards]) => {
+    currentUserId = user._id;
+    userInfo.setUserInfo({
+      name: user.name,
+      about: user.about,
+    });
+    profileAvatar.src = user.avatar;
+
+    cardList.setItems(cards);
+    cardList.renderItems();
+  })
+  .catch((err) => console.log(err));
 
 function createCard(cardData) {
-  const card = new Card(cardData, "#cards__template", (cardData) => {
-    imagePopup.open(cardData);
-  });
+  const card = new Card(
+    cardData,
+    "#cards__template",
+    (cardData) => {
+      imagePopup.open(cardData);
+    },
+    (cardID) => {
+      api
+        .addLike(cardID)
+        .then(() => {
+          card._setLiked(true);
+        })
+        .catch((err) => console.log(err));
+    },
+    (cardID) => {
+      api
+        .removeLike(cardID)
+        .then(() => {
+          card._setLiked(false);
+        })
+        .catch((err) => console.log(err));
+    },
+    currentUserId,
+  );
 
   return card.generateCard();
 }
 
 function handleProfileFormSubmit(formData) {
-  userInfo.setUserInfo({
-    name: formData.name,
-    about: formData.description,
-  });
-
-  editProfilePopup.close();
+  api
+    .editarDados(formData.name, formData.description)
+    .then((user) => {
+      userInfo.setUserInfo({ name: user.name, about: user.about });
+      profileAvatar.src = user.avatar;
+      editProfilePopup.close();
+    })
+    .catch((err) => console.log(err));
 }
 
 function handleAddCardFormSubmit(formData) {
-  const newCard = createCard({
-    name: formData["place-name"],
-    link: formData.link,
-  });
-  cardList.addItem(newCard);
-  addCardPopup.close();
+  api
+    .addNewCard(formData["place-name"], formData.link)
+    .then((cardData) => {
+      const newCard = createCard(cardData);
+      cardList.addItem(newCard);
+      addCardPopup.close();
+    })
+    .catch((err) => console.log(err));
 }
 
 // ========== EVENT LISTENERS ==========
@@ -127,4 +191,7 @@ document.querySelector(".profile__add-button").addEventListener("click", () => {
   addCardPopup.open();
 });
 
-cardList.renderItems();
+// document.querySelector(".card__delete-button").addEventListener("click", () => {
+//   debugger;
+//   addCardPopup.open();
+// });

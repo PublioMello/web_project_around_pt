@@ -116,6 +116,7 @@
   top: calc(100% + 10px);
   margin: 0;
 }
+
 /* ====== ERROS ====== */
 .popup__error-message {
   display: none;
@@ -138,6 +139,9 @@
   opacity: 0.2;
   cursor: not-allowed;
 }
+
+
+
 
 @media screen and (max-width: 544px) {
   .popup {
