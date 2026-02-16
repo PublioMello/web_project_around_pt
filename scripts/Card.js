@@ -17,6 +17,7 @@ export default class Card {
     this._handleLike = handleLike;
     this._handleUnlike = handleUnlike;
 
+    this._isLiked = data.isLiked;
     this._userId = userId;
   }
 
@@ -66,11 +67,6 @@ export default class Card {
     } else {
       this._likeButton.classList.remove("card__like-button_is-active");
     }
-  }
-
-  _handleDeleteClick() {
-    this._element.remove();
-    this._element = null;
   }
 
   generateCard() {

@@ -130,6 +130,7 @@ function createCard(cardData) {
       api
         .addLike(cardID)
         .then(() => {
+          debugger;
           card._setLiked(true);
         })
         .catch((err) => console.log(err));
