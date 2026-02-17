@@ -96,8 +96,8 @@ export default class Api {
       })
       .catch((err) => console.log(err));
   }
-  deleteCard() {
-    return fetch(`${this._baseUrl}/cards/${cardID}/likes`, {
+  deleteCard(cardID) {
+    return fetch(`${this._baseUrl}/cards/${cardID}`, {
       method: "DELETE",
       headers: this._headers,
     })
