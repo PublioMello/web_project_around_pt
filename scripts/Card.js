@@ -5,6 +5,7 @@ export default class Card {
     handleCardClick,
     handleLike,
     handleUnlike,
+    handleDelete,
     userId,
   ) {
     this._name = data.name;
@@ -18,6 +19,9 @@ export default class Card {
     this._handleUnlike = handleUnlike;
 
     this._isLiked = data.isLiked;
+
+    this._handleDelete = handleDelete;
+
     this._userId = userId;
   }
 
@@ -40,7 +44,7 @@ export default class Card {
     this._element
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
-        this._handleDeleteClick();
+        this._handleDelete(this._cardId, this._element);
       });
 
     this._element
@@ -79,6 +83,7 @@ export default class Card {
     cardImage.alt = this._name;
     this._element.querySelector(".card__title").textContent = this._name;
 
+    this._deleteButton = this._element.querySelector(".card__delete-button");
     this._setLiked(this._isLiked);
 
     this._setEventListeners();

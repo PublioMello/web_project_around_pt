@@ -104,6 +104,11 @@ newCardValidator.enableValidation();
 
 // ========== FUNCTIONS ==========
 let currentUserId;
+const deleteConfirmationPopup = new PopupWithConfirmation(
+  "#delete-confirmation-popup",
+);
+
+deleteConfirmationPopup.setEventListeners();
 
 Promise.all([api.getTheName(), api.getInitialCards()])
   .then(([user, cards]) => {
@@ -142,6 +147,18 @@ function createCard(cardData) {
           card._setLiked(false);
         })
         .catch((err) => console.log(err));
+    },
+
+    (cardID, cardElement) => {
+      deleteConfirmationPopup.open(() => {
+        api
+          .deleteCard(cardID)
+          .then(() => {
+            cardElement.remove();
+            deleteConfirmationPopup.close();
+          })
+          .catch(console.log);
+      });
     },
     currentUserId,
   );
