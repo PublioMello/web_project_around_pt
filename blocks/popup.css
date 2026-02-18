@@ -193,12 +193,12 @@
   transition: filter 0.3s;
 }
 
-.profile:hover .profile__image {
+.profile__image:hover {
   filter: brightness(0.4);
   cursor: pointer;
 }
 
-.profile:hover::after {
+.profile__image:hover~.profile__info::before {
   content: "";
   position: absolute;
   width: 26px;
