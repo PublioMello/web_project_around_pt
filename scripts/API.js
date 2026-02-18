@@ -109,4 +109,19 @@ export default class Api {
       })
       .catch((err) => console.log(err));
   }
+
+  editProfilePicture(avatarUrl) {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({ avatar: avatarUrl }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return console.log(res.status);
+      })
+      .catch((err) => console.log(err));
+  }
 }

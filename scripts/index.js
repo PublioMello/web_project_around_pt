@@ -77,7 +77,12 @@ const addCardPopup = new PopupWithForm(
   "#new-card-popup",
   handleAddCardFormSubmit,
 );
+
 addCardPopup.setEventListeners();
+
+// ========== POPUP EDIT PROFILE PICTURE ==========
+const avatarPopup = new PopupWithForm("#avatar-popup", handleAvatarSubmit);
+avatarPopup.setEventListeners();
 
 // ========== SECTION CARDS ==========
 
@@ -188,6 +193,15 @@ function handleAddCardFormSubmit(formData) {
     .catch((err) => console.log(err));
 }
 
+function handleAvatarSubmit(formData) {
+  api
+    .editProfilePicture(formData.avatar)
+    .then((user) => {
+      profileAvatar.src = user.avatar;
+      avatarPopup.close();
+    })
+    .catch(console.log);
+}
 // ========== EVENT LISTENERS ==========
 
 document
@@ -209,7 +223,6 @@ document.querySelector(".profile__add-button").addEventListener("click", () => {
   addCardPopup.open();
 });
 
-// document.querySelector(".card__delete-button").addEventListener("click", () => {
-//   debugger;
-//   addCardPopup.open();
-// });
+document.querySelector(".profile__image").addEventListener("click", () => {
+  avatarPopup.open();
+});

@@ -175,14 +175,43 @@
 .popup__confirm-button {
   /* Submit Button */
 
-  /* position: absolute; */
   width: 358px;
   height: 50px;
   left: 461px;
   top: 365px;
-
-
 }
+
+.profile {
+  position: relative;
+}
+
+.profile__image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: filter 0.3s;
+}
+
+.profile:hover .profile__image {
+  filter: brightness(0.4);
+  cursor: pointer;
+}
+
+.profile:hover::after {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  background: url("../images/edit-icon.svg") center no-repeat;
+  background-size: contain;
+  top: 50%;
+  left: 60px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
 
 @media screen and (max-width: 544px) {
   .popup {
