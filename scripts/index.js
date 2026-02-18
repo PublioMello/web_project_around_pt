@@ -172,7 +172,7 @@ function createCard(cardData) {
 }
 
 function handleProfileFormSubmit(formData) {
-  api
+  return api
     .editarDados(formData.name, formData.description)
     .then((user) => {
       userInfo.setUserInfo({ name: user.name, about: user.about });
@@ -183,7 +183,7 @@ function handleProfileFormSubmit(formData) {
 }
 
 function handleAddCardFormSubmit(formData) {
-  api
+  return api
     .addNewCard(formData["place-name"], formData.link)
     .then((cardData) => {
       const newCard = createCard(cardData);
@@ -194,7 +194,7 @@ function handleAddCardFormSubmit(formData) {
 }
 
 function handleAvatarSubmit(formData) {
-  api
+  return api
     .editProfilePicture(formData.avatar)
     .then((user) => {
       profileAvatar.src = user.avatar;
