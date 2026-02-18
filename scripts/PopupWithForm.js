@@ -28,6 +28,8 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (event) => {
       event.preventDefault();
 
+      this.renderLoading(true);
+
       if (!this._form.checkValidity()) {
         this.close();
         return;
@@ -37,7 +39,13 @@ export default class PopupWithForm extends Popup {
       this._handleFormSubmit(inputValues);
     });
   }
-
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = "Salvando...";
+    } else {
+      this._submitButton.textContent = this._defaultButtonText;
+    }
+  }
   close() {
     super.close();
 
